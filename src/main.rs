@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use eframe::{egui};
 use std::collections::VecDeque;
 use egui::ViewportCommand;
@@ -5,16 +7,20 @@ use egui::ViewportCommand;
 const MAX_HISTORY_LINES: usize = 100;
 const PROMPT: &str = "> ";
 
+// Commandes web sur un serveur
+// Mise a jour depuis le github
+
+
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
         viewport: egui::ViewportBuilder::default()
             .with_decorations(false)
             .with_inner_size([400.0, 200.0])
-            .with_min_inner_size([400.0, 200.0])
+            .with_max_inner_size([400.0, 200.0])
             .with_transparent(true)
-            .with_always_on_top(),
+            .with_always_on_top()
 
-        ..Default::default()
+        ,..Default::default()
     };
 
     eframe::run_native(
@@ -167,9 +173,7 @@ fn title_bar_ui(ui: &mut egui::Ui, title_bar_rect: eframe::epaint::Rect, title: 
 
 
     if title_bar_response.double_clicked() {
-        let is_maximized = ui.input(|i| i.viewport().maximized.unwrap_or(false));
-        ui.ctx()
-            .send_viewport_cmd(ViewportCommand::Maximized(!is_maximized));
+        
     }
 
     if title_bar_response.drag_started_by(PointerButton::Primary) {
