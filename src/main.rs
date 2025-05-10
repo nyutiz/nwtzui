@@ -10,6 +10,9 @@ const PROMPT: &str = "> ";
 // Commandes web sur un serveur
 // Mise a jour depuis le github
 
+// Commandes genre Open ...
+// Ouvre pages webs
+// Ajouter ... a ...  <- Comme pour task assistant
 
 fn main() -> Result<(), eframe::Error> {
     let options = eframe::NativeOptions {
@@ -173,7 +176,7 @@ fn title_bar_ui(ui: &mut egui::Ui, title_bar_rect: eframe::epaint::Rect, title: 
 
 
     if title_bar_response.double_clicked() {
-        
+        //ui.ctx().move right corner
     }
 
     if title_bar_response.drag_started_by(PointerButton::Primary) {
@@ -243,7 +246,9 @@ impl TerminalApp {
             is_command: true,
         });
 
-        match command.trim().to_lowercase().as_str() {
+        let args:Vec<&str> = command.split(" ").collect();
+
+        match args[0] {
             "help" => {
                 self.add_response("Available commands:");
                 self.add_response("  help  - Display this help message");
@@ -264,7 +269,15 @@ impl TerminalApp {
             },
             "params" => {
                 //OUVRIR PARAMS APP
-            }
+            },
+            "open" => {
+                
+                println!("{:?}", args);
+                //OUVRIR PARAMS APP
+            },
+            "shutdown" => {
+                //let _ = shutdown();
+            },
             _ => {
                 if command.starts_with("echo ") {
                     let echo_text = command[5..].trim();
